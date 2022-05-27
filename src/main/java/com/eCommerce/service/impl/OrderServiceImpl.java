@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eCommerce.domain.BillingAddress;
 import com.eCommerce.domain.Book;
 import com.eCommerce.domain.CartItem;
 import com.eCommerce.domain.Order;
@@ -30,12 +29,10 @@ public class OrderServiceImpl implements OrderService{
 	
 	public synchronized Order createOrder(ShoppingCart shoppingCart,
 			ShippingAddress shippingAddress,
-			BillingAddress billingAddress,
 			Payment payment,
 			String shippingMethod,
 			User user) {
 		Order order = new Order();
-		order.setBillingAddress(billingAddress);
 		order.setOrderStatus("created");
 		order.setPayment(payment);
 		order.setShippingAddress(shippingAddress);
@@ -53,7 +50,6 @@ public class OrderServiceImpl implements OrderService{
 		order.setOrderDate(Calendar.getInstance().getTime());
 		order.setOrderTotal(shoppingCart.getGrandTotal());
 		shippingAddress.setOrder(order);
-		billingAddress.setOrder(order);
 		payment.setOrder(order);
 		order.setUser(user);
 		order = orderRepository.save(order);
